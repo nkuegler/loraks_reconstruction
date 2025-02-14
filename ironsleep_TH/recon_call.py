@@ -17,7 +17,7 @@ Functions:
 import os
 import warnings
 
-import config_alina as config
+import config_ironsleep as config
 
 # script defining slurm parameters and reconstruction command
 script_dir = os.path.dirname(__file__)
@@ -29,14 +29,37 @@ output_parent = config.output_parent
 t1w_raw = config.t1w_raw
 pdw_raw = config.pdw_raw
 mtw_raw = config.mtw_raw
+ernst_raw = config.ernst_raw
 sub_ses = config.sub_ses
+name_storage_dir = config.name_storage_dir
+
+
+## check if input_parent and output_parent exist
+if not os.path.exists(input_parent):
+    raise FileNotFoundError(f"Input parent directory {input_parent} does not exist")
+
+if not os.path.exists(output_parent):
+    print(f"Output parent directory {output_parent} does not exist. Creating it now.")
+    os.makedirs(output_parent, exist_ok=True)
+
+## define which data to reconstruct
+t1w_recon = bool(t1w_raw)
+pdw_recon = bool(pdw_raw)
+mtw_recon = bool(mtw_raw)
+ernst_recon = bool(ernst_raw)
 
 
 ## check if sub_ses, t1w, pdw, and mtw are of the same length
-if len(sub_ses) != len(t1w_raw) or \
-        len(sub_ses) != len(pdw_raw) or \
-        len(sub_ses) != len(mtw_raw):
-    raise ValueError("Length of sub_ses, t1w_raw, pdw_raw, and mtw_raw must be the same")
+number_of_sessions = sum(len(sessions) for _, sessions in sub_ses)
+
+if pdw_recon and sum(len(sl) for sl in pdw_raw) != number_of_sessions:
+    raise ValueError("Length of pdw_raw must be the same as the number of sessions")
+if t1w_recon and sum(len(sl) for sl in t1w_raw) != number_of_sessions:
+    raise ValueError("Length of t1w_raw must be the same as the number of sessions")
+if mtw_recon and sum(len(sl) for sl in mtw_raw) != number_of_sessions:
+    raise ValueError("Length of mtw_raw must be the same as the number of sessions")
+if ernst_recon and sum(len(sl) for sl in ernst_raw) != number_of_sessions:
+    raise ValueError("Length of ernst_raw must be the same as the number of sessions")
 
 
 def sbatch_commands():
@@ -52,10 +75,10 @@ def sbatch_commands():
             session_name = [session_name] # convert session element to list for iteration
         
         if isinstance(session_name, list):
-            for sess in session_name:
+            for j, sess in enumerate(session_name):
                 
                 # specify output directory (reconstructed data)
-                output_dir = os.path.join(output_parent, subject_name, sess, "nii_loraks")
+                output_dir = os.path.join(output_parent, subject_name, sess, name_storage_dir)
                 if not os.path.exists(output_dir):
                     os.makedirs(output_dir, exist_ok=True)
                 
@@ -64,16 +87,23 @@ def sbatch_commands():
                     continue
                 
                 # specify input directory (raw data)
-                input_path = os.path.join(input_parent, subject_name, sess, "dcm/rawdata")
+                input_path = os.path.join(input_parent, subject_name, sess, "raw")
 
-                t1w_input_path = os.path.join(input_path, t1w_raw[i])
-                os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {t1w_input_path} {output_dir}')
+                if t1w_recon:
+                    t1w_input_path = os.path.join(input_path, t1w_raw[i][j])
+                    os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {t1w_input_path} {output_dir}')
                 
-                pdw_input_path = os.path.join(input_path, pdw_raw[i])
-                os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {pdw_input_path} {output_dir}')
+                if pdw_recon:
+                    pdw_input_path = os.path.join(input_path, pdw_raw[i][j])
+                    os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {pdw_input_path} {output_dir}')
+
+                if mtw_recon:       
+                    mtw_input_path = os.path.join(input_path, mtw_raw[i][j])
+                    os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {mtw_input_path} {output_dir}')
                 
-                mtw_input_path = os.path.join(input_path, mtw_raw[i])
-                os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {mtw_input_path} {output_dir}')
+                if ernst_recon:
+                    ernst_input_path = os.path.join(input_path, ernst_raw[i][j])
+                    os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {ernst_input_path} {output_dir}')
         
         else:
             raise TypeError("Session (sub_ses[1]) must be of type string or list")
@@ -81,6 +111,3 @@ def sbatch_commands():
 
 if __name__ == "__main__":
     sbatch_commands()
-
-
-
