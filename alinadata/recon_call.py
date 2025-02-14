@@ -30,6 +30,7 @@ t1w_raw = config.t1w_raw
 pdw_raw = config.pdw_raw
 mtw_raw = config.mtw_raw
 sub_ses = config.sub_ses
+name_storage_dir = config.name_storage_dir
 
 
 ## check if sub_ses, t1w, pdw, and mtw are of the same length
@@ -55,7 +56,7 @@ def sbatch_commands():
             for sess in session_name:
                 
                 # specify output directory (reconstructed data)
-                output_dir = os.path.join(output_parent, subject_name, sess, "nii_loraks")
+                output_dir = os.path.join(output_parent, subject_name, sess, name_storage_dir)
                 if not os.path.exists(output_dir):
                     os.makedirs(output_dir, exist_ok=True)
                 

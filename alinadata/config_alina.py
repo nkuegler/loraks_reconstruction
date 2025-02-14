@@ -17,6 +17,7 @@ sub_ses = [["15484.08", "20241107"],
 ## directories of subjects and sessions for input and output
 input_parent = "/data/pt_03002/data/source"
 output_parent = "/data/pt_03002/data/source"
+name_storage_dir = "nii_loraks"  # name of the directory in the output_parent where the reconstructed data will be stored
 
 
 ## names of the actual t1w, pdw, and mtw .dat files
