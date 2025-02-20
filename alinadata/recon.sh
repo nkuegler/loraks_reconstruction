@@ -11,4 +11,4 @@
 rawdata=$1
 outdir=$2
 
-MATLAB matlab -nodisplay -nodesktop -r "reconstruction('$rawdata','$outdir','/data/u_kuegler_software/git/loraks_reconstruction/alinadata/loraksConfig.json');exit" -sd /data/u_kuegler_software/git/image-reconstruction
+MATLAB -v 9.16 matlab -nodisplay -nodesktop -r "reconstruction('$rawdata','$outdir','/data/u_kuegler_software/git/loraks_reconstruction/alinadata/loraksConfig.json');exit" -sd /data/u_kuegler_software/git/image-reconstruction
