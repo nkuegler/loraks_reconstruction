@@ -20,7 +20,7 @@ import warnings
 import config_ironsleep as config
 
 # script defining slurm parameters and reconstruction command
-script_dir = os.path.dirname(__file__)
+script_dir = os.path.dirname(os.path.abspath(__file__))
 recon_script = os.path.join(script_dir, 'recon.sh')
 
 # configuration variables
