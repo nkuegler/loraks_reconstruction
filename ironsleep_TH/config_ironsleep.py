@@ -3,7 +3,7 @@
 ## subject names and session names
 ## if there are multiple sessions for a subject, the session names should be in a list
 sub_ses = [["37446.6e", ["20230505","20230511","20230512","20240222"]],
-           ["40851.ff", ["20230511","20230512","20240403"]],
+           ["40851.ff", ["20230505","20230511","20230512","20240403"]],
            ["41006.a1", ["20230606","20231012","20231121","20231123"]],
            ["41486.2c", ["20230928","20231006","20231010"]],
 ]
@@ -18,12 +18,13 @@ name_storage_dir = "nii_loraks_recon"   # name of the directory in the output_pa
 ## specifying names of the actual pdw, t1w, mtw, and ernst .dat files
 ## Each one has to be a nested list, where the sessions of each subject are specified in a separate list.
 pdw_raw = [[  # 37446.6e  
-              "meas_MID00188_pdw_kp_mtflash3d_v1sx_0p6_20230505_193438.dat",  # 20230505
+              "meas_MID00159_pdw_kp_mtflash3d_v1sx_0p6_20230505_181529.dat",  # 20230505
               "meas_MID00089_FID17065_pdw_kp_mtflash3d_v1s_0p6.dat",          # 20230511
               "meas_MID00219_FID17220_pdw_kp_mtflash3d_v1s_0p6.dat",          # 20230512
               "meas_MeasUID45_pdw_kp_mtflash3d_v1sx_0p6.dat"                  # 20240222
            ],
            [  # 40851.ff
+              "meas_MID00188_pdw_kp_mtflash3d_v1sx_0p6_20230505_193438.dat",  # 20230505
               "meas_MID00065_FID17041_pdw_kp_mtflash3d_v1s_0p6.dat",          # 20230511
               "meas_MID00169_FID17170_pdw_kp_mtflash3d_v1s_0p6.dat",          # 20230512
               "meas_MeasUID25_pdw_kp_mtflash3d_v1s_0p6.dat"                   # 20240403
@@ -42,12 +43,13 @@ pdw_raw = [[  # 37446.6e
 ]
            
 t1w_raw = [[  # 37446.6e
-              "meas_MID00183_t1w_kp_mtflash3d_v1sx_0p6_20230505_192302.dat", # 20230505
+              "meas_MID00155_t1w_kp_mtflash3d_v1sx_0p6_20230505_180304.dat", # 20230505
               "meas_MID00088_FID17064_t1w_kp_mtflash3d_v1s_0p6.dat",         # 20230511
               "meas_MID00218_FID17219_t1w_kp_mtflash3d_v1s_0p6.dat",         # 20230512
               "meas_MeasUID44_t1w_kp_mtflash3d_v1sx_0p6.dat"                 # 20240222
            ],
-           [
+           [  # 40851.ff
+              "meas_MID00183_t1w_kp_mtflash3d_v1sx_0p6_20230505_192302.dat", # 20230505
               "meas_MID00064_FID17040_t1w_kp_mtflash3d_v1s_0p6.dat",         # 20230511
               "meas_MID00168_FID17169_t1w_kp_mtflash3d_v1s_0p6.dat",         # 20230512
               "meas_MeasUID24_t1w_kp_mtflash3d_v1s_0p6.dat",                 # 20240403
@@ -68,12 +70,13 @@ t1w_raw = [[  # 37446.6e
 mtw_raw = None
 
 ernst_raw = [[  # 37446.6e
-                "meas_MID00190_ernst_kp_mtflash3d_v1sx_0p5_sag_20230505_194708", # 20230505
+                "meas_MID00163_ernst_kp_mtflash3d_v1sx_0p5_sag_20230505_183143.dat", # 20230505
                 "meas_MID00091_FID17067_ernst_kp_mtflash3d_v1s_0p5_sag.dat",     # 20230511
                 "meas_MID00223_FID17224_ernst_kp_mtflash3d_v1s_0p5_sag.dat",     # 20230512
                 "meas_MeasUID50_ernst_kp_mtflash3d_v1sx_0p5_sag.dat"             # 20240222
             ], 
             [  # 40851.ff
+                "meas_MID00190_ernst_kp_mtflash3d_v1sx_0p5_sag_20230505_194708.dat", # 20230505
                 "meas_MID00068_FID17044_ernst_kp_mtflash3d_v1s_0p5_sag.dat",     # 20230511
                 "meas_MID00171_FID17172_ernst_kp_mtflash3d_v1s_0p5_sag.dat",     # 20230512
                 "meas_MeasUID28_ernst_kp_mtflash3d_v1sx_0p5_sag.dat",            # 20240403
