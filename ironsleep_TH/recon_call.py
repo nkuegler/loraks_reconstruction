@@ -16,8 +16,11 @@ Functions:
 
 import os
 import warnings
+import json
+from datetime import datetime
 
 import config_ironsleep as config
+
 
 # script defining slurm parameters and reconstruction command
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -63,6 +66,8 @@ if ernst_recon and sum(len(sl) for sl in ernst_raw) != number_of_sessions:
 
 
 def sbatch_commands():
+    output_paths_raw = {}  # store paths to the raw data for each subject and session -> export as json at the end of the script
+
     """
     Submit jobs to the cluster
     """
@@ -88,25 +93,42 @@ def sbatch_commands():
                 
                 # specify input directory (raw data)
                 input_path = os.path.join(input_parent, subject_name, sess, "raw")
-
+                session_data = {}
+                
                 if t1w_recon:
                     t1w_input_path = os.path.join(input_path, t1w_raw[i][j])
                     os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {t1w_input_path} {output_dir}')
+                    session_data['t1w'] = t1w_input_path
                 
                 if pdw_recon:
                     pdw_input_path = os.path.join(input_path, pdw_raw[i][j])
                     os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {pdw_input_path} {output_dir}')
+                    session_data['pdw'] = pdw_input_path
 
                 if mtw_recon:       
                     mtw_input_path = os.path.join(input_path, mtw_raw[i][j])
                     os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {mtw_input_path} {output_dir}')
+                    session_data['mtw'] = mtw_input_path
                 
                 if ernst_recon:
                     ernst_input_path = os.path.join(input_path, ernst_raw[i][j])
                     os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {ernst_input_path} {output_dir}')
+                    session_data['ernst'] = ernst_input_path
         
+                if subject_name not in output_paths_raw:
+                    output_paths_raw[subject_name] = {}
+                output_paths_raw[subject_name][sess] = session_data
+
         else:
             raise TypeError("Session (sub_ses[1]) must be of type string or list")
+
+    
+    # export paths that were used for reconstruction for documentation purposes
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_filename = f'loraks_rawData_{current_time}.json'
+    with open(os.path.join(output_parent, output_filename), 'w') as json_file:
+        json.dump(output_paths_raw, json_file, indent=4)
+
 
 
 if __name__ == "__main__":
