@@ -103,6 +103,9 @@ The shell script `recon.sh` specifies the task and the required resources in the
       rawdata=$1
       outdir=$2
 
+      echo "rawdata: $rawdata"
+      echo "outdir: $outdir"
+
       MATLAB -v 9.16 matlab -nodisplay -nodesktop -r "reconstruction('$rawdata','$outdir','/path/to/loraksConfig.json');exit" -sd /path/to/image-reconstruction
       ```
 
