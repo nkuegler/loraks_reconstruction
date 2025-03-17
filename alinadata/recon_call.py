@@ -53,6 +53,10 @@ mtw_recon = bool(mtw_raw)
 ernst_recon = bool(ernst_raw)
 
 
+for (_, session_name) in sub_ses:
+    if isinstance(session_name, str):
+        session_name = [session_name] # convert session element to list for iteration
+
 ## if with_smaps, each session is used twice to account for the accompanying sensitivity maps
 if with_smaps:
     new_sub_ses = []
@@ -87,9 +91,6 @@ def sbatch_commands():
 
         if not isinstance(subject_name, str):
             raise TypeError("Subject (sub_ses[0]) must be of type string")
-        
-        if isinstance(session_name, str):
-            session_name = [session_name] # convert session element to list for iteration
         
         if isinstance(session_name, list):
             for j, sess in enumerate(session_name):
