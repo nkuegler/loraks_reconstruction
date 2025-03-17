@@ -19,7 +19,7 @@ import warnings
 import json
 from datetime import datetime
 
-import config_ironsleep as config
+import config_ironsleep as config # import the correct config file
 
 
 # script defining slurm parameters and reconstruction command
@@ -148,7 +148,7 @@ def sbatch_commands():
 
     
     # export paths that were used for reconstruction for documentation purposes
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    current_time = datetime.now().strftime("%Y%m%d_%H%M")
     output_filename = f'loraks_rawData_{current_time}.json'
     with open(os.path.join(output_parent, output_filename), 'w') as json_file:
         json.dump(output_paths_raw, json_file, indent=4)
