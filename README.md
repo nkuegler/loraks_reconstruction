@@ -2,7 +2,7 @@
 
 This page describes how to reconstruct the raw MRI data acquired in the IronSleep project to magnitude and phase maps in the NIfTI data format. 
 
-The scripts that are described on this page are part of the **loraks_reconstruction** repository. Feel free to clone or fork the repository. If there are problems regarding the permissions, [send me an e-mail](mailto:kuegler@cbs.mpg.de?subject=Permissions%20missing%20loraks_reconstruction) or a message on Minerva (user: kuegler).
+The scripts that are described on this page are part of the **loraks_reconstruction** repository ([Private Github repo](https://github.com/nkuegler/loraks_reconstruction)). Feel free to clone or fork the repository. If there are problems regarding the permissions, [send me an e-mail](mailto:kuegler@cbs.mpg.de?subject=Permissions%20missing%20loraks_reconstruction) or a message on Minerva (user: kuegler).
 
 ## Usage
 The scripts in the **loraks_reconstruction** repository are used to specify paths, configure the LORAKS reconstruction, and submit the reconstruction of each session's data in a separate batch job utilizing SLURM.<br>
