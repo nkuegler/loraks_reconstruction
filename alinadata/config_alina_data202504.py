@@ -137,3 +137,7 @@ mtw_raw =  [[  # 42904.6b
 ]
 
 ernst_raw = None
+
+b1afi_ptx_raw = None
+
+b1afi_stx_raw = None
