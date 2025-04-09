@@ -126,3 +126,7 @@ The shell script `recon.sh` specifies the task and the required resources in the
 > Additional information: 
 > Running the `recon_call.py` script will save all individual paths to the raw data files that were specified for the LORAKS reconstruction to `output_parent/loraks_rawData_YYMMDD_HHMM.json`.
 
+
+## Todo:
++ adjust all paths to Pathlib instead of OS or other path libraries, so that the application will also run on windows machines
++ paths to raw data should rather be specified as dictionaries instead of lists
