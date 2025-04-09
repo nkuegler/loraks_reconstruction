@@ -19,7 +19,7 @@ import warnings
 import json
 from datetime import datetime
 
-import config_alina_data202503 as config # import the correct config file
+import config_alina_data202504 as config # import the correct config file
 
 
 # script defining slurm parameters and reconstruction command
