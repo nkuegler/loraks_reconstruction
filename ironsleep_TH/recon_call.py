@@ -33,6 +33,8 @@ t1w_raw = config.t1w_raw
 pdw_raw = config.pdw_raw
 mtw_raw = config.mtw_raw
 ernst_raw = config.ernst_raw
+b1afi_ptx_raw = config.b1afi_ptx_raw
+b1afi_stx_raw = config.b1afi_stx_raw
 sub_ses = config.sub_ses
 name_storage_dir = config.name_storage_dir
 with_smaps = config.with_smaps
@@ -51,7 +53,13 @@ t1w_recon = bool(t1w_raw)
 pdw_recon = bool(pdw_raw)
 mtw_recon = bool(mtw_raw)
 ernst_recon = bool(ernst_raw)
+b1afi_ptx_recon = bool(b1afi_ptx_raw)
+b1afi_stx_recon = bool(b1afi_stx_raw)
 
+
+for (_, session_name) in sub_ses:
+    if isinstance(session_name, str):
+        session_name = [session_name] # convert session element to list for iteration
 
 ## if with_smaps, each session is used twice to account for the accompanying sensitivity maps
 if with_smaps:
@@ -87,9 +95,6 @@ def sbatch_commands():
 
         if not isinstance(subject_name, str):
             raise TypeError("Subject (sub_ses[0]) must be of type string")
-        
-        if isinstance(session_name, str):
-            session_name = [session_name] # convert session element to list for iteration
         
         if isinstance(session_name, list):
             for j, sess in enumerate(session_name):
@@ -138,7 +143,24 @@ def sbatch_commands():
                         ernst_input_path = os.path.join(input_path, ernst_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {ernst_input_path} {output_dir}')
                     session_data['ernst'] = ernst_input_path
-        
+                
+                if b1afi_ptx_recon:
+                    if not b1afi_ptx_raw[i][j]:
+                        pass # no batch job submitted
+                    else:
+                        b1afi_ptx_input_path = os.path.join(input_path, b1afi_ptx_raw[i][j])
+                        os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {b1afi_ptx_input_path} {output_dir}')
+                    session_data['b1afi_ptx'] = b1afi_ptx_input_path
+                
+                if b1afi_stx_recon:
+                    if not b1afi_stx_raw[i][j]:
+                        pass # no batch job submitted
+                    else:
+                        b1afi_stx_input_path = os.path.join(input_path, b1afi_stx_raw[i][j])
+                        os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {b1afi_stx_input_path} {output_dir}')
+                    session_data['b1afi_stx'] = b1afi_stx_input_path
+
+                # store paths to the raw data for each subject and session
                 if subject_name not in output_paths_raw:
                     output_paths_raw[subject_name] = {}
                 output_paths_raw[subject_name][sess] = session_data
