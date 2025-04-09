@@ -118,7 +118,7 @@ def sbatch_commands():
                     else:
                         t1w_input_path = os.path.join(input_path, t1w_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {t1w_input_path} {output_dir}')
-                    session_data['t1w'] = t1w_input_path
+                        session_data['t1w'] = t1w_input_path
                 
                 if pdw_recon:
                     if not pdw_raw[i][j]:
@@ -126,7 +126,7 @@ def sbatch_commands():
                     else:
                         pdw_input_path = os.path.join(input_path, pdw_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {pdw_input_path} {output_dir}')
-                    session_data['pdw'] = pdw_input_path
+                        session_data['pdw'] = pdw_input_path
 
                 if mtw_recon:
                     if not mtw_raw[i][j]:
@@ -134,7 +134,7 @@ def sbatch_commands():
                     else: 
                         mtw_input_path = os.path.join(input_path, mtw_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {mtw_input_path} {output_dir}')
-                    session_data['mtw'] = mtw_input_path
+                        session_data['mtw'] = mtw_input_path
                 
                 if ernst_recon:
                     if not ernst_raw[i][j]:
@@ -142,7 +142,7 @@ def sbatch_commands():
                     else:
                         ernst_input_path = os.path.join(input_path, ernst_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {ernst_input_path} {output_dir}')
-                    session_data['ernst'] = ernst_input_path
+                        session_data['ernst'] = ernst_input_path
                 
                 if b1afi_ptx_recon:
                     if not b1afi_ptx_raw[i][j]:
@@ -150,7 +150,7 @@ def sbatch_commands():
                     else:
                         b1afi_ptx_input_path = os.path.join(input_path, b1afi_ptx_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {b1afi_ptx_input_path} {output_dir}')
-                    session_data['b1afi_ptx'] = b1afi_ptx_input_path
+                        session_data['b1afi_ptx'] = b1afi_ptx_input_path
                 
                 if b1afi_stx_recon:
                     if not b1afi_stx_raw[i][j]:
@@ -158,7 +158,7 @@ def sbatch_commands():
                     else:
                         b1afi_stx_input_path = os.path.join(input_path, b1afi_stx_raw[i][j])
                         os.system(f'sbatch -p all,group_servers,gr_weiskopf {recon_script} {b1afi_stx_input_path} {output_dir}')
-                    session_data['b1afi_stx'] = b1afi_stx_input_path
+                        session_data['b1afi_stx'] = b1afi_stx_input_path
 
                 # store paths to the raw data for each subject and session
                 if subject_name not in output_paths_raw:
