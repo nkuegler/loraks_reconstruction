@@ -14,4 +14,4 @@ outdir=$2
 echo "rawdata: $rawdata"
 echo "outdir: $outdir"
 
-MATLAB -v 9.16 matlab -nodisplay -nodesktop -r "reconstruction('$rawdata','$outdir','/data/u_kuegler_software/git/loraks_reconstruction/alinadata/loraksConfig.json');exit" -sd /data/u_kuegler_software/git/image-reconstruction
+MATLAB -v 9.16 matlab -batch "reconstruction('$rawdata','$outdir','/data/u_kuegler_software/git/loraks_reconstruction/alinadata/loraksConfig.json');exit" -sd /data/u_kuegler_software/git/image-reconstruction
