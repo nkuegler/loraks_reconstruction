@@ -19,7 +19,7 @@ import warnings
 import json
 from datetime import datetime
 
-import config_ironsleep_sub5 as config # import the correct config file
+import config_ironsleep_sub5_2 as config # import the correct config file
 
 
 # script defining slurm parameters and reconstruction command
@@ -104,7 +104,7 @@ def sbatch_commands():
                 if not os.path.exists(output_dir):
                     os.makedirs(output_dir, exist_ok=True)
                 
-                if os.listdir(output_dir):
+                if any(os.path.isfile(os.path.join(output_dir, f)) for f in os.listdir(output_dir)):
                     warnings.warn(f"Output path {output_dir} is not empty. Skipping this session.")
                     continue
                 
