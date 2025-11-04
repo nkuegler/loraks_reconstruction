@@ -19,7 +19,7 @@ import warnings
 import json
 from datetime import datetime
 
-import config_ironsleep_sub5_2 as config # import the correct config file
+import config_infantdata_adults202511 as config # import the correct config file
 
 
 # script defining slurm parameters and reconstruction command
