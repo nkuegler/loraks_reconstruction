@@ -4,6 +4,17 @@ This page describes how to reconstruct the raw MRI data acquired in the IronSlee
 
 The scripts that are described on this page are part of the **loraks_reconstruction** repository ([Public Github repo](https://github.com/nkuegler/loraks_reconstruction)). Feel free to clone or fork the repository. If you encounter any problems, [send me an e-mail](mailto:kuegler@cbs.mpg.de?subject=Problems%20with%20loraks_reconstruction) or a message on Minerva (user: kuegler).
 
+---
+
+## Table of Contents
+
+1. [Usage](#usage)
+    - [Necessary software (repositories)](#necessary-software-repositories)
+    - [How to run the LORAKS reconstruction](#how-to-run-the-loraks-reconstruction)
+2. [ToDos](#todos)
+
+---
+
 ## Usage
 The scripts in the **loraks_reconstruction** repository are used to specify paths, configure the LORAKS reconstruction, and submit the reconstruction of each session's data in a separate batch job utilizing SLURM.<br>
 The different folders in the repository are the scripts used for different projects. As this documentation is focusing on analyzing the data acquired in the IronSleep project, I will refer to the directory `ironsleep_TH/`. The other directories may also work but may need some manual adjustment and I cannot guarantee that they are up to date.<br>
@@ -150,5 +161,6 @@ The shell script `recon.sh` specifies the task and the required resources in the
 
 
 ## ToDos:
++ try out, document, and commit how to use UV instead of conda
 + adjust all paths to Pathlib instead of OS or other path libraries, so that the application will also run on Windows computers. (Although additional changes may be needed for full Windows compatibility, this change improves cross-platform support.)
 + paths to raw data should rather be specified as dictionaries instead of lists
