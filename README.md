@@ -2,7 +2,7 @@
 
 This page describes how to reconstruct the raw MRI data acquired in the IronSleep project to magnitude and phase maps in the NIfTI data format. 
 
-The scripts that are described on this page are part of the **loraks_reconstruction** repository ([Private Github repo](https://github.com/nkuegler/loraks_reconstruction)). Feel free to clone or fork the repository. If there are problems regarding the permissions, [send me an e-mail](mailto:kuegler@cbs.mpg.de?subject=Permissions%20missing%20loraks_reconstruction) or a message on Minerva (user: kuegler).
+The scripts that are described on this page are part of the **loraks_reconstruction** repository ([Public Github repo](https://github.com/nkuegler/loraks_reconstruction)). Feel free to clone or fork the repository. If you encounter any problems, [send me an e-mail](mailto:kuegler@cbs.mpg.de?subject=Problems%20with%20loraks_reconstruction) or a message on Minerva (user: kuegler).
 
 ## Usage
 The scripts in the **loraks_reconstruction** repository are used to specify paths, configure the LORAKS reconstruction, and submit the reconstruction of each session's data in a separate batch job utilizing SLURM.<br>
@@ -18,19 +18,37 @@ The logs are saved in separate directories in the `logs/` folder (excluded from 
     + As stated in the **image_reconstruction** README, download the latest release of [ROMEO from Github](https://github.com/korbinian90/CompileMRI.jl/releases) (on MPI CBS computers, download the version compiled for Ubuntu 20.04).
     + Examples of the `loraksConfig.json` can be found in the **loraks_reconstruction** repository.
 + **loraks_reconstruction** 
-    + This repository contains scripts to submit the reconstructions of all specified sessions as separate batch jobs to a compute server using SLURM. [Reach out](mailto:kuegler@cbs.mpg.de?subject=Permissions%20missing%20loraks_reconstruction) if you want to access the code (kuegler@cbs.mpg.de).
+    + This repository contains scripts to submit the reconstructions of all specified sessions as separate batch jobs to a compute server using SLURM. [Reach out](mailto:kuegler@cbs.mpg.de?subject=Problems%20with%20loraks_reconstruction) if you encounter problems or need help with the code (kuegler@cbs.mpg.de).
 
 ### How to run the LORAKS reconstruction
 The python script `recon_call.py` inherits parameters specified in `config_ironsleep.py` (mainly paths and file names). According to those, it builds the commands for submitting jobs to the SLURM compute server.<br> 
-You will only define a parent input directory, where the script will recursively process each subject and session folder that is specified in the `config_ironsleep.py` file. It is important, that the file structure is conform with: `parent_dir/subject_dir/session_dir`.
+You will only define a parent input directory, where the script will recursively process each subject and session folder that is specified in the `config_ironsleep.py` file. It is important, that the folder/file structure is conform with: 
+```
+parent_dir/
+├── subject_01/
+│   ├── session_01/
+│   │   └── [raw data files]
+│   ├── session_02/
+│   │   └── [raw data files]
+│   └── session_03/
+│       └── [raw data files]
+├── subject_02/
+│   ├── session_01/
+│   │   └── [raw data files]
+│   └── session_02/
+│       └── [raw data files]
+└── subject_03/
+    └── session_01/
+        └── [raw data files]
+```
 
 The shell script `recon.sh` specifies the task and the required resources in the SBATCH notation (output of the logs is specified by `SBATCH -o /path/to/logs/dir/%j.out`). The *reconstruction* command uses the parameters specified in the `loraksConfig.json`, which must be adjusted to use the ROMEO phase unwrapping. 
 
 + **Step 0:**
-    + Set up miniforge, so you can use the conda or mamba package manager (you can follow the instructions in [Setting up Conda](https://wiki.cbs.mpg.de/spaces/CBSNP/pages/158105663/Setting+up+Conda)).
+    + Set up miniforge, so you can use the conda (or mamba) package manager (you can follow the instructions in [Setting up Conda](https://wiki.cbs.mpg.de/spaces/CBSNP/pages/158105663/Setting+up+Conda)).
 
 + **Step 1:**
-    + Connect to a SLURM compute server.
+    + Connect to a SLURM compute server *(only for MPI CBS compute infrastructure)*
     + ```
       getserver -sb
       ```
@@ -46,8 +64,8 @@ The shell script `recon.sh` specifies the task and the required resources in the
 + **Step 3:** 
     + Activate a virtual environment containing a recent python version. The Bidsme environment provided in the Bidsification step should be sufficient.
     + ```
-      # mamba env create -f environment.yml   # create environment from environment.yml if you have not done this yet
-      mamba activate env_name   # activate environment
+      # conda env create -f environment.yml   # create environment from environment.yml if you have not done this yet
+      conda activate env_name   # activate environment
       ```
 
 + **Step 4:**
@@ -60,11 +78,15 @@ The shell script `recon.sh` specifies the task and the required resources in the
     + `name_storage_dir`: name of the directory that is created in each session's folder to store the reconstructed data
     + `with_smaps`: reconstruct corresponding sensitivity maps for each raw data file 
         + If `with_smaps = True` in the config file, the number of sessions specified in `sub_ses` is considered double. Every raw data file name **MUST** be accompanied by an smap file in this case (either specified before or after the corresponding raw data file in the dictionaries described below)!
-        + If there is no smap available or you don't want to reconstruct one for a specific session, you still need to add an empty string at the correct position `""`.  This will avoid submitting a batch job for this file.
+        + If there is no smap available or you don't want to reconstruct one for a specific session, you still need to add an empty string `""` or a `"placeholder"` string at the correct position. This will avoid submitting a batch job for this file (as no file matching this name can be found in the specified directory).
     + `pdw_raw`: nested list, defining the file names of the the separate PD-weighted raw MRI files
-        + `[[file_sess1, file_sess2, file_sess3, ...]`, # for subj1
-          ` [file_sess1, file_sess2, file_sess3, ...]`, # for subj2
-          ` [file_sess1, file_sess2, file_sess3, ...]]` # for subj3
+        + ```python
+            [
+            [file_sess1, file_sess2, file_sess3, ...], # for subj1
+            [file_sess1, file_sess2, file_sess3, ...], # for subj2
+            [file_sess1, file_sess2, file_sess3, ...] # for subj3
+            ]
+            ```
         + `pdw_raw=None`, if you don't want to reconstruct PD-weighted data.
     + `t1w_raw`: nested list, defining the file names of the the separate T1-weighted raw MRI files
         + *structure: see pdw_raw*
@@ -91,14 +113,14 @@ The shell script `recon.sh` specifies the task and the required resources in the
       ```
 
 + **Step 6:**
-    + Access the `recon.sh` script and adjust the required resources and log file output path in the SBATCH parameters. The more resources you request for the job, the later your job will be scheduled. So try to keep the resource request as high as necessary, but as low as possible.
+    + Access the `recon.sh` script and adjust the required resources and log file output path in the SBATCH parameters. The more resources you request for the job, the later your job will be scheduled. Try to keep the resource request as high as necessary, but as low as possible.
     + Also adjust the paths pointing to the `loraksConfig.json` and to the local clone of the **image-reconstruction** repository in the reconstruction command. 
     + The MATLAB version is specified as 9.16 but other versions may also work (not tested).
     + ```
       #SBATCH -c 16					# 16 cores for fast reco
       #SBATCH --mem 500G			# 0.5 mm fully sampled is around 220G, need maybe double
       #SBATCH --time 1800			# 10 echoes at 2 hours per echo but some nodes take 3 hours per echo
-      #SBATCH -o /data/u_kuegler_software/git/loraks_reconstruction/logs/ironsleep_TH/%j.out	# redirect the logs output
+      #SBATCH -o /data/u_kuegler_software/git/loraks_reconstruction/logs/ironsleep_TH/%j.out	# redirect the output to log files
 
       rawdata=$1
       outdir=$2
@@ -112,14 +134,14 @@ The shell script `recon.sh` specifies the task and the required resources in the
 + **Step 7:** 
     + Submit all the specified jobs to the SLURM compute server by running the `recon_call.py` script from the terminal.
         + Check that the correct config file is imported in `recon_call.py` (especially if you created a new config file with a different name).
-    + Reminder: Make sure that you are on the SLURM compute server (Step 1) and that the correct conda/mamba environment is activated (Step 3).
+    + Reminder: Make sure that you are on the SLURM compute server (Step 1) and that the correct conda environment is activated (Step 3).
     + ```
       cd /path/to/loraks-reconstruction/ironsleep_TH
       ./recon_call.py
       ````
 
 + **Step 8:**
-    + Check if the batch jobs were submitted and are now running or pending using the command `sacct` (on the SLURM cluster).
+    + Check if the batch jobs were submitted and are now running or pending using the commands `sacct` or `squeue -u $USER` (on the SLURM cluster).
     + More information on SLURM commands can be found [here](https://slurm.schedmd.com/quickstart.html).
 
 
@@ -127,6 +149,6 @@ The shell script `recon.sh` specifies the task and the required resources in the
 > Running the `recon_call.py` script will save all individual paths to the raw data files that were specified for the LORAKS reconstruction to `output_parent/loraks_rawData_YYMMDD_HHMM.json`.
 
 
-## Todo:
-+ adjust all paths to Pathlib instead of OS or other path libraries, so that the application will also run on windows machines
+## ToDos:
++ adjust all paths to Pathlib instead of OS or other path libraries, so that the application will also run on Windows computers. (Although additional changes may be needed for full Windows compatibility, this change improves cross-platform support.)
 + paths to raw data should rather be specified as dictionaries instead of lists
