@@ -35,8 +35,8 @@ pdw_raw = [[   # 22194.ff
            [   # 42577.9a
                "meas_MeasUID105_smaps_kp_mtflash3d_v1s_20ch_250902_102716.dat",      # 20250902_1
                "meas_MeasUID106_pdw_kp_mtflash3d_v1s_1p0_250902_102716.dat",         # 20250902_1
-               "placeholder.dat",                                                     # 20250902_2
-               "placeholder.dat",                                                     # 20250902_2 
+               "",                                                     # 20250902_2
+               "",                                                     # 20250902_2 
            ],
            [   # 36881.c9
                "meas_MeasUID130_smaps_kp_mtflash3d_v1s_20ch_250902_115027.dat",      # 20250902_1
@@ -105,8 +105,8 @@ t1w_raw = [[   # 22194.ff
            [   # 42577.9a
                "meas_MeasUID103_smaps_kp_mtflash3d_v1s_20ch_250902_102716.dat",        # 20250902_1
                "meas_MeasUID104_t1w_kp_mtflash3d_v1s_1p0_250902_102716.dat",           # 20250902_1
-               "placeholder.dat",                                                     # 20250902_2
-               "placeholder.dat",                                                     # 20250902_2
+               "",                                                     # 20250902_2
+               "",                                                     # 20250902_2
            ],
            [   # 36881.c9
                "meas_MeasUID128_smaps_kp_mtflash3d_v1s_20ch_250902_115027.dat",        # 20250902_1
@@ -125,8 +125,8 @@ t1w_raw = [[   # 22194.ff
                "meas_MeasUID103_t1w_kp_mtflash3d_v1s_1p0_250903_091814.dat",         # 20250903_1
                "meas_MeasUID116_smaps_kp_mtflash3d_v1s_20ch_250903_091814.dat",      # 20250903_2
                "meas_MeasUID117_t1w_kp_mtflash3d_v1s_1p0_250903_091814.dat",         # 20250903_2
-               "placeholder.dat",     # 20250903_3
-               "placeholder.dat",        # 20250903_3
+               "",     # 20250903_3
+               "",        # 20250903_3
            ],
            [   # 43081.e5
                "meas_MeasUID146_smaps_kp_mtflash3d_v1s_20ch_250903_133935.dat",      # 20250903_1
@@ -175,8 +175,8 @@ mtw_raw = [[   # 22194.ff
            [   # 42577.9a
                "meas_MeasUID107_smaps_kp_mtflash3d_v1s_20ch_250902_102716.dat",        # 20250902_1
                "meas_MeasUID108_mtw_kp_mtflash3d_v1s_1p0_FA180_250902_102716.dat",     # 20250902_1
-               "placeholder.dat",                                                     # 20250902_2
-               "placeholder.dat",                                                     # 20250902_2
+               "",                                                     # 20250902_2
+               "",                                                     # 20250902_2
            ],
            [   # 36881.c9
                "meas_MeasUID132_smaps_kp_mtflash3d_v1s_20ch_250902_115027.dat",        # 20250902_1
