@@ -3,7 +3,7 @@
 ## subject names and session names
 ## if there are multiple sessions for a subject, the session names should be in a list
 sub_ses = [["22194.ff", ["20250902_1", "20250902_2"]],
-           ["42577.9a", ["20250902_1", "20250902_2"]],
+           ["42577.9a", ["20250902_2"]],
            ["36881.c9", ["20250902_1", "20250902_2"]],
            ["39626.d6", ["20250903_1", "20250903_2"]],
            ["43306.68", ["20250903_1", "20250903_2", "20250903_3"]],
@@ -37,10 +37,8 @@ mtw_raw = [[   # 22194.ff
                "meas_MeasUID59_mtw_kp_mtflash3d_v1s_1p0_fa220_250902_073957.dat",     # 20250902_2
            ],
            [   # 42577.9a
-               "meas_MeasUID109_smaps_kp_mtflash3d_v1s_20ch_250902_102716.dat",        # 20250902_1
-               "meas_MeasUID110_mtw_kp_mtflash3d_v1s_1p0_fa220_250902_102716.dat",     # 20250902_1
-               "",                                                     # 20250902_2
-               "",                                                     # 20250902_2
+               "meas_MeasUID109_smaps_kp_mtflash3d_v1s_20ch_250902_102716.dat",        # 20250902_2
+               "meas_MeasUID110_mtw_kp_mtflash3d_v1s_1p0_fa220_250902_102716.dat",     # 20250902_2
            ],
            [   # 36881.c9
                "meas_MeasUID134_smaps_kp_mtflash3d_v1s_20ch_250902_115027.dat",        # 20250902_1
