@@ -122,6 +122,7 @@ The shell script `recon.sh` specifies the task and the required resources in the
        "multiEchoPhaseUnwrappingMethod": "romeo"
       }
       ```
+    > Warning: The reconstruction may fail for very small matrices as the `rank parameter can't be larger than the matrix dimensions`. I encountered this problem when trying to reconstruct sensitivity maps acquired with the body coil. To overcome the issue, you need to adjust the `rank` parameter in the config file (see `loraksConfig_adjRank.json` in the `ironsleep_TH/` folder as an example).
 
 + **Step 6:**
     + Access the `recon.sh` script and adjust the required resources and log file output path in the SBATCH parameters. The more resources you request for the job, the later your job will be scheduled. Try to keep the resource request as high as necessary, but as low as possible.
@@ -164,3 +165,4 @@ The shell script `recon.sh` specifies the task and the required resources in the
 + try out, document, and commit how to use UV instead of conda
 + adjust all paths to Pathlib instead of OS or other path libraries, so that the application will also run on Windows computers. (Although additional changes may be needed for full Windows compatibility, this change improves cross-platform support.)
 + paths to raw data should rather be specified as dictionaries instead of lists
++ default rank 150 does not work for all smaps (must be adjusted in loraksConfig.json) -> implement rank specification (or rather loraksConfig file specification) in config file
