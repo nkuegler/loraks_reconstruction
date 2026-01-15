@@ -19,7 +19,7 @@ import warnings
 import json
 from datetime import datetime
 
-import config_xald_202511 as config # import the correct config file
+import config_ironsleep_sub1_2026_smapsBC as config # import the correct config file
 
 
 # script defining slurm parameters and reconstruction command
@@ -38,6 +38,7 @@ b1afi_stx_raw = config.b1afi_stx_raw
 sub_ses = config.sub_ses
 name_storage_dir = config.name_storage_dir
 with_smaps = config.with_smaps
+smaps_per_session = config.smaps_per_session
 
 
 ## check if input_parent and output_parent exist
@@ -65,10 +66,10 @@ for (_, session_name) in sub_ses:
 if with_smaps:
     new_sub_ses = []
     for sj, ss in sub_ses:
-        doubled_sessions = []
+        extended_sessions = []
         for s in ss:
-            doubled_sessions.extend([s, s])
-        new_sub_ses.append([sj, doubled_sessions])
+            extended_sessions.extend([s] * (smaps_per_session + 1))
+        new_sub_ses.append([sj, extended_sessions])
     sub_ses = new_sub_ses
 
 # check if sub_ses, t1w, pdw, and mtw are of the same length
