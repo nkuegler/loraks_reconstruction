@@ -42,10 +42,6 @@ if not os.path.exists(output_parent):
     os.makedirs(output_parent, exist_ok=True)
 
 
-for (_, session_name) in sub_ses:
-    if isinstance(session_name, str):
-        session_name = [session_name] # convert session element to list for iteration
-
 
 def sbatch_commands():
     output_paths_raw = {}  # store paths to the raw data for each subject and session -> export as json at the end of the script
@@ -57,6 +53,9 @@ def sbatch_commands():
 
         if not isinstance(subject_name, str):
             raise TypeError("Subject (sub_ses[0]) must be of type string")
+        
+        if isinstance(session_name, str):
+            session_name = [session_name] # convert session element to list for iteration
         
         if isinstance(session_name, list):
             for j, sess in enumerate(session_name):

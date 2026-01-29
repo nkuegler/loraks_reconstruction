@@ -57,9 +57,6 @@ b1afi_ptx_recon = bool(b1afi_ptx_raw)
 b1afi_stx_recon = bool(b1afi_stx_raw)
 
 
-for (_, session_name) in sub_ses:
-    if isinstance(session_name, str):
-        session_name = [session_name] # convert session element to list for iteration
 
 ## if with_smaps, each session is used twice to account for the accompanying sensitivity maps
 if with_smaps:
@@ -72,7 +69,15 @@ if with_smaps:
     sub_ses = new_sub_ses
 
 # check if sub_ses, t1w, pdw, and mtw are of the same length
-number_of_sessions = sum(len(sessions) for _, sessions in sub_ses)
+number_of_sessions = 0
+for _, sessions in sub_ses:
+    if isinstance(sessions, list):
+        number_of_sessions += len(sessions)
+    elif isinstance(sessions, str):
+        number_of_sessions += 1
+    else:
+        raise TypeError(f"Sessions must be of type list or string, got {type(sessions).__name__}")
+
 
 # Keep in mind: if with_smaps=True, the number of sessions is doubled
 if pdw_recon and sum(len(sl) for sl in pdw_raw) != number_of_sessions:
@@ -96,6 +101,9 @@ def sbatch_commands():
         if not isinstance(subject_name, str):
             raise TypeError("Subject (sub_ses[0]) must be of type string")
         
+        if isinstance(session_name, str):
+            session_name = [session_name] # convert session element to list for iteration
+
         if isinstance(session_name, list):
             for j, sess in enumerate(session_name):
                 
