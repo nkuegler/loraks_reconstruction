@@ -14,6 +14,7 @@ name_storage_dir = "nii_loraks_recon"   # name of the directory in the output_pa
 with_smaps = False # boolean, specifies if sensitivity maps are also reconstructed
                    # each session file MUST have a corresponding sensitivity map file (2x length of t1w_raw, pdw_raw, mtw_raw)
                    # handled so that each specified session in sub_ses is used twice
+smaps_per_session = 0 # integer, number of sensitivity maps per session
 
 ## specifying names of the actual pdw, t1w, mtw, and ernst .dat files
 ## Each one has to be a nested list, where the sessions of each subject are specified in a separate list.
