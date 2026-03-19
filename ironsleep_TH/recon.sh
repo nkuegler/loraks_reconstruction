@@ -14,9 +14,17 @@ outdir=$2
 echo "rawdata: $rawdata"
 echo "outdir: $outdir"
 
+# Use adjRank config if rawdata filename contains "smap"
+if [[ "$rawdata" == *"smap"* ]]; then
+    config="/data/u_kuegler_software/git/loraks_reconstruction/ironsleep_TH/loraksConfig_adjRank.json"
+    echo "Detected 'smap' in filename, using adjRank config"
+else
+    config="/data/u_kuegler_software/git/loraks_reconstruction/ironsleep_TH/loraksConfig.json"
+fi
+
 start=$(date +%s)
 
-MATLAB -v 9.16 matlab -batch "reconstruction('$rawdata','$outdir','/data/u_kuegler_software/git/loraks_reconstruction/ironsleep_TH/loraksConfig.json');exit" -sd /data/u_kuegler_software/git/image-reconstruction
+MATLAB -v 24.2 matlab -batch "reconstruction('$rawdata','$outdir','$config');exit" -sd /data/u_kuegler_software/git/image-reconstruction
 
 end=$(date +%s)
 duration=$((end - start))
