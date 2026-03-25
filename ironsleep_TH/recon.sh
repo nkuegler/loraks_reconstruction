@@ -14,10 +14,10 @@ outdir=$2
 echo "rawdata: $rawdata"
 echo "outdir: $outdir"
 
-# Use adjRank config if rawdata filename contains "smap"
-if [[ "$rawdata" == *"smap"* ]]; then
+# Use adjRank config if rawdata filename contains "smap" or "sens"
+if [[ "$rawdata" == *"smap"* ]] || [[ "$rawdata" == *"sens"* ]]; then
     config="/data/u_kuegler_software/git/loraks_reconstruction/ironsleep_TH/loraksConfig_adjRank.json"
-    echo "Detected 'smap' in filename, using adjRank config"
+    echo "Detected 'smap' or 'sens' in filename, using adjRank config"
 else
     config="/data/u_kuegler_software/git/loraks_reconstruction/ironsleep_TH/loraksConfig.json"
 fi
